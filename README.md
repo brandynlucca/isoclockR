@@ -1,2 +1,2 @@
 # isoclockR
-Using isotopes to determine animal time-of-arrival 
+Using isotopes for fun things.
