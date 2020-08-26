@@ -12,6 +12,7 @@
 #' Generates ISO-class object.
 #'
 #' @export
+#' @import tidyverse
 ISOgen <- function(data, data.names=NULL, seperator=NA, doi, dfi, lambda){
   requireNamespace("tidyverse", quietly=T)
   #Parse different isotope data; seperate into lists for appending
