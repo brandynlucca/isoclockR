@@ -36,17 +36,20 @@ isoclock <- function(animal=NULL, doi=animal@metadata$doi, dfi=animal@metadata$d
     resval <- data.frame(residence=isosub(dt))
     appISO <- Map(cbind, dt, residence=resval)
     names(appISO) <- data.names
-    flag <- 0
-    while(flag == 0){
-      varlist <- Filter(ISOfind, ls())
-      hypname <- paste("animal",sample(1:999,1), sep="")
-      if(!(hypname %in% varlist)){
-        flag <- 1
-        cat(paste("ISO object created: ", hypname, sep=""), "\n",
-            "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
-        return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
-      }
-    }
+    cat(paste("ISO object created: ", hypname, sep=""), "\n",
+        "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
+    return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
+    # flag <- 0
+    # while(flag == 0){
+    #   varlist <- Filter(ISOfind, ls())
+    #   hypname <- paste("animal",sample(1:999,1), sep="")
+    #   if(!(hypname %in% varlist)){
+    #     flag <- 1
+    #     cat(paste("ISO object created: ", hypname, sep=""), "\n",
+    #         "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
+    #     return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
+    #   }
+    # }
   }else{
     resval <- map(dt, .f = ~ isosub(.$value))
     appISO <- Map(cbind, dt, residence=resval)
