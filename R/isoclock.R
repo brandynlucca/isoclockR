@@ -36,6 +36,7 @@ isoclock <- function(animal=NULL, doi=animal@metadata$doi, dfi=animal@metadata$d
     resval <- data.frame(residence=isosub(dt))
     appISO <- Map(cbind, dt, residence=resval)
     names(appISO) <- data.names
+    hypname <- paste("animal",sample(1:999,1), sep="")
     cat(paste("ISO object created: ", hypname, sep=""), "\n",
         "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
     return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
