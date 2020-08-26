@@ -23,9 +23,9 @@ isoclock <- function(animal=NULL, doi=animal@metadata$doi, dfi=animal@metadata$d
                      lambda=animal@metadata$lambda, data.names=names(animal@data)){
   # requireNamespace("dplyr", quietly=T)
   #Secondary check if animal is accidentally used as another variable
-  if("animal" %in% Filter(ISOfind, ls())){
-    warning("Variable 'animal' is currently in use and conflicts with isoclock function. Please consider deleting or renaming.")
-  }
+  # if("animal" %in% Filter(ISOfind, ls())){
+  #   warning("Variable 'animal' is currently in use and conflicts with isoclock function. Please consider deleting or renaming.")
+  # }
 
   #Secondary function
   isosub <- function(x){
