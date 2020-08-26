@@ -15,6 +15,8 @@ devtools::install_github("brandynlucca/isoclockR")
 Then we can create an `ISO` object (see: `?ISO` via command line in the R GUI/RStudio). 
 
 ```{r}
+require(isoclockR)
+require(tidyverse) #this is a dependency that is currently giving fits...
 #Create ISO object
 #Hypothetical animal with d15N sample
 #d15N == dt == == 14.9 %o
@@ -22,7 +24,7 @@ Then we can create an `ISO` object (see: `?ISO` via command line in the R GUI/RS
 #df == dfi == 17.59 %o
 #lambda == lambda == 0.0172
 
-random_animal <- ISOgen(data.names="d15N", doi=12.69, dfi=17.59, lambda=0.0172)
+random_animal <- ISOgen(data=14.9, data.names="d15N", doi=12.69, dfi=17.59, lambda=0.0172)
 ```
 
 So we can look at how this object is generated with some metadata (currently still being fleshed out, of course).
