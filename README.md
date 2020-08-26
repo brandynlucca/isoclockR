@@ -9,14 +9,13 @@ First we install the package.
 #We need devtools installed
 #install.packages(devtools)
 require(devtools)
-devtools::install_github("brandynlucca/isoclockR")
+devtools::install_github("brandynlucca/isoclockR", auth_token="e89437b0ef77d567473ca6229d4a3a927703a1b0")
+require(isoclockR)
 ```
 
 Then we can create an `ISO` object (see: `?ISO` via command line in the R GUI/RStudio). 
 
 ```{r}
-require(isoclockR)
-require(tidyverse) #this is a dependency that is currently giving fits...
 #Create ISO object
 #Hypothetical animal with d15N sample
 #d15N == dt == == 14.9 %o
@@ -24,7 +23,7 @@ require(tidyverse) #this is a dependency that is currently giving fits...
 #df == dfi == 17.59 %o
 #lambda == lambda == 0.0172
 
-random_animal <- ISOgen(data=14.9, data.names="d15N", doi=12.69, dfi=17.59, lambda=0.0172)
+random_animal <- ISOgen(data.names="d15N", doi=12.69, dfi=17.59, lambda=0.0172)
 ```
 
 So we can look at how this object is generated with some metadata (currently still being fleshed out, of course).
@@ -58,8 +57,4 @@ where values represent the isotope value, and residence represents the residence
 #Isoclock without premade object
 new_animal <- isoclock(doi=12.69, dfi=17.59, dt=14.9, lambda=0.0172, data.names="d15N")
 new_animal
-
-#We can also create an arbitrarily named object from a randomized seed so as to not create overlapping/conflicting names. This flagged via "create" and will assign an object.
-#This 'create' feature may be a temporary feature since 'assign' is not a very functional approach, but we shall see!
-isoclock(doi=12.69, dfi=17.59, dt=14.9, lambda=0.0172, data.names="d15N", create=T)
 ```
