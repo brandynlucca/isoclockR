@@ -13,7 +13,7 @@
 #'
 #' @export
 ISOgen <- function(data, data.names=NULL, seperator=NA, doi, dfi, lambda){
-  requireNamespace("dplyr", quietly=T)
+  requireNamespace("tidyverse", quietly=T)
   #Parse different isotope data; seperate into lists for appending
   if(is_tibble(data)){
     isodata <- data %>%
