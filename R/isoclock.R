@@ -20,8 +20,8 @@
 #'
 #' @export
 isoclock <- function(animal=NULL, doi=animal@metadata$doi, dfi=animal@metadata$dfi, dt=animal@data,
-                     lambda=animal@metadata$lambda, data.names=NULL, create=F){
-  requireNamespace("dplyr", quietly=T)
+                     lambda=animal@metadata$lambda, data.names=names(animal@data)){
+  # requireNamespace("dplyr", quietly=T)
   #Secondary check if animal is accidentally used as another variable
   if("animal" %in% Filter(ISOfind, ls())){
     warning("Variable 'animal' is currently in use and conflicts with isoclock function. Please consider deleting or renaming.")
@@ -32,34 +32,25 @@ isoclock <- function(animal=NULL, doi=animal@metadata$doi, dfi=animal@metadata$d
     return(log((doi - dfi)/(x - dfi))/lambda)
   }
 
-  #Test if animal object or arbitrary values
-  if(!is.null(animal)){
-    #Calculate residency
-    resval <- map(dt, .f = ~ isosub(.$value))
-    #Append to paired values within each isotope field
-    appISO <- Map(cbind, dt, residence=resval)
-  }else{
-    resval <- data.frame(residence=isosub(dt))
-    appISO <- Map(cbind, as.data.frame(dt), residence=resval)
-    names(appISO) <- data.names
-  }
-
-  #Check for ISO object -- if not, create one
   if(is.null(animal)){
+    resval <- data.frame(residence=isosub(dt))
+    appISO <- Map(cbind, dt, residence=resval)
+    names(appISO) <- data.names
     flag <- 0
     while(flag == 0){
       varlist <- Filter(ISOfind, ls())
       hypname <- paste("animal",sample(1:999,1), sep="")
       if(!(hypname %in% varlist)){
         flag <- 1
-        environ <- if(create == T) .GlobalEnv else baseenv()
         cat(paste("ISO object created: ", hypname, sep=""), "\n",
             "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
-        return(assign(hypname, ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda),
-               envir = environ))
+        return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
       }
     }
   }else{
+    resval <- map(dt, .f = ~ isosub(.$value))
+    appISO <- Map(cbind, dt, residence=resval)
+    environ <- baseenv()
     cat(paste("ISO object edited: ", deparse(substitute(animal)), sep=""), "\n",
         "Residence times calculated for ", nrow(appISO[[1]])," samples!", "\n", sep="")
     ISOedit(animal, appISO)
