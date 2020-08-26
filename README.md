@@ -23,6 +23,8 @@ Then we can create an `ISO` object (see: `?ISO` via command line in the R GUI/RS
 #df == dfi == 17.59 %o
 #lambda == lambda == 0.0172
 
+require(tidyverse) #dependency that isn't importing for some reason at the moment :( 
+
 random_animal <- ISOgen(data.names="d15N", doi=12.69, dfi=17.59, lambda=0.0172)
 ```
 
