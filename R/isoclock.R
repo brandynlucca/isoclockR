@@ -68,6 +68,7 @@ isoclock <- function(object=NULL, doi=NA, dfi=NA, lambda=NA, dt=NA,
 }
 
 #' Wrapper function to calculate isotope residence for ISO and MISO objects
+#' @export
 REScalc <- function(object, index){
   if(class(object) == "ISO"){
     params <- get_param(object)
@@ -79,6 +80,7 @@ REScalc <- function(object, index){
 }
 
 #' Wrapper function to calculate isotope residence
+#' @export
 isosub <- function(params){
   return(log((params$doi - params$dfi)/(params$dt - params$dfi))/params$lambda)
 }
