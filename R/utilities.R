@@ -48,6 +48,7 @@ MISOedit <- function(object, rejection = F){
 
   for(i in nn){
     if(rejection == F){
+      params <- get_param_sub(object, i)
       res <- REScalc(object, i)
       object@data[[i]][[sym(params$parameter[1])]]$residence <- res
     }else{
