@@ -92,7 +92,7 @@ miso_resplot <- function(object, y, tail.prob = TRUE,
         mutate(Along=i, x=!!sym(y))
 
       if(is.null(xlim)){
-        xlim <- c(min(pcts$x) - 5, max(pcts$x) + 5)
+        xlim <- c(min(tmpdf$x) - 5, max(tmpdf$x) + 5)
       }else{
         if(sym(y) == "residence_rejection"){
           pcts <- tailprob(tmpdf$x,
