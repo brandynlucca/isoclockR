@@ -137,7 +137,8 @@ ISOpull <- function(object, data.names=NULL){
   }
 }
 
-#' @rdname ISOedit
+#' @rdname ISOpull
+#' @export
 MISOpull <- function(object, index, data.names=NULL){
   if(!is.null(data.names)){
     return(object@data[[index]][[sym(data.names)]])
