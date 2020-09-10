@@ -74,46 +74,42 @@ MISOgen <- function(ISOobjects) {
 #' @description
 #' Function for pulling parameters
 #' @export
-setGeneric("get_param", function(object) standardGeneric("get_param"))
-setMethod("get_param", signature(object="ISO"),
-          function(object){
-            params <- new("param",
-                          parameter=names(object@data),
-                          dt=object@data[[sym(names(object@data))]]$value,
-                          doi=object@metadata$doi, dfi=object@metadata$dfi,
-                          lambda=object@metadata$lambda
-            )
-            params_df <- as.data.frame(
-              setNames(
-                lapply(slotNames(params),
-                       function(x){
-                         slot(params, x)
-                       }),
-                slotNames(params))
-            )
 
-            return(params_df)
-            })
+get_param <- function(object){
+  params <- new("param",
+                parameter=names(object@data),
+                dt=object@data[[sym(names(object@data))]]$value,
+                doi=object@metadata$doi, dfi=object@metadata$dfi,
+                lambda=object@metadata$lambda
+  )
+  params_df <- as.data.frame(
+    setNames(
+      lapply(slotNames(params),
+             function(x){
+               slot(params, x)
+             }),
+      slotNames(params))
+  )
+
+  return(params_df)
+}
 
 #' Value pull
 #'
 #' @description
 #' Function for pulling data values
 #' @export
-setGeneric("get_param_sub",
-           function(object, index) standardGeneric("get_param_sub"))
-setMethod("get_param_sub",
-          signature(object="MISO"),
-          function(object, index){
-            newobj <- ISOgen(data=object@data[[index]][[sym(names(object@data[[index]]))]]$value,
-                             data.names=names(object@data[[index]]),
-                             doi=object@metadata[[index]]$doi,
-                             dfi=object@metadata[[index]]$dfi,
-                             lambda=object@metadata[[index]]$lambda)
-            param_sub <- get_param(newobj)
 
-            return(param_sub)
-          })
+get_param_sub <- function(object, index){
+  newobj <- ISOgen(data=object@data[[index]][[sym(names(object@data[[index]]))]]$value,
+                   data.names=names(object@data[[index]]),
+                   doi=object@metadata[[index]]$doi,
+                   dfi=object@metadata[[index]]$dfi,
+                   lambda=object@metadata[[index]]$lambda)
+  param_sub <- get_param(newobj)
+
+  return(param_sub)
+}
 
 #' Pull data length
 #'
