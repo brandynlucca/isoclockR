@@ -92,17 +92,16 @@ miso_resplot <- function(object, y, tail.prob = TRUE,
         mutate(Along=i, x=!!sym(y))
 
       if(is.null(xlim)){
-        xlim <- c(min(tmpdf$x) - 5, max(tmpdf$x) + 5)
+        xlim <- c(min(tmpdf$x) - 5, max(tmpdf$x) + 5)}
+
+      if(sym(y) == "residence_rejection"){
+        pcts <- tailprob(tmpdf$x,
+                         force = ifelse(sym(y) == "residence_rejection", T, F),
+                         xlim = xlim)
       }else{
-        if(sym(y) == "residence_rejection"){
-          pcts <- tailprob(tmpdf$x,
-                           force = ifelse(sym(y) == "residence_rejection", T, F),
-                           xlim = xlim)
-        }else{
-          pcts <- tailprob(tmpdf$x,
-                           force = ifelse(sym(y) == "residence_rejection", T, F),
-                           xlim = xlim)
-        }
+        pcts <- tailprob(tmpdf$x,
+                         force = ifelse(sym(y) == "residence_rejection", T, F),
+                         xlim = xlim)
       }
       df <- bind_rows(df, cbind(data.frame(Along=i), pcts))
     }
@@ -120,17 +119,16 @@ miso_resplot <- function(object, y, tail.prob = TRUE,
 
       if(is.null(xlim)){
         xlim <- c(min(pcts$x) - 5, max(pcts$x) + 5)
-      }else{
-        if(sym(y) == "residence_rejection"){
-          pcts <- tailprob(tmpdf$x,
-                           force = ifelse(sym(y) == "residence_rejection", T, F),
-                           xlim = xlim)
-        }else{
-          pcts <- tailprob(tmpdf$x,
-                           force = ifelse(sym(y) == "residence_rejection", T, F),
-                           xlim = xlim)
-        }
       }
+      if(sym(y) == "residence_rejection"){
+        pcts <- tailprob(tmpdf$x,
+                         force = ifelse(sym(y) == "residence_rejection", T, F),
+                         xlim = xlim)
+      }else{
+        pcts <- tailprob(tmpdf$x,
+                         force = ifelse(sym(y) == "residence_rejection", T, F),
+                         xlim = xlim)
+    }
 
       df <- bind_rows(df, cbind(data.frame(Along=i), pcts, data.frame(sep=tmpdf$sep[1])))
     }
