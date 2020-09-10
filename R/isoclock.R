@@ -34,7 +34,7 @@
 #' @export
 isoclock <- function(object=NULL, doi=NA, dfi=NA, lambda=NA, dt=NA,
                      data.names=NULL, seperator=NULL,
-                     verbose=T, create=T, rejection_sample = F){
+                     verbose=T, create=T, rejection = F){
   #solve equation for specific values
   if(is.null(object)){
     object <- ISOgen(data=dt, doi=doi, dfi=dfi, lambda=lambda,
@@ -44,7 +44,7 @@ isoclock <- function(object=NULL, doi=NA, dfi=NA, lambda=NA, dt=NA,
   if(class(object) == "ISO"){
     object <- suppressWarnings(ISOedit(object))
   }else if(class(object) == "MISO"){
-    object <- suppressWarnings(MISOedit(object, rejection_sample))
+    object <- suppressWarnings(MISOedit(object, rejection))
   }else{
     stop("isoclock(...) requires either specific inputs for each parameter, or an ISO and/or MISO object.")
   }
