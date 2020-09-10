@@ -2,9 +2,12 @@
 % Please edit documentation in R/utilities.R
 \name{ISOpull}
 \alias{ISOpull}
+\alias{MISOpull}
 \title{Pull values}
 \usage{
 text
+
+MISOpull(object, index, data.names = NULL)
 }
 \arguments{
 \item{ISOobject}{text. Pull values}

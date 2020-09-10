@@ -3,14 +3,11 @@
 \name{ISOedit}
 \alias{ISOedit}
 \alias{MISOedit}
-\alias{MISOpull}
 \title{Edit ISO objects.}
 \usage{
 ISOedit(object, ...)
 
 MISOedit(object, rejection = F)
-
-MISOpull(object, index, data.names = NULL)
 }
 \description{
 Edit ISO objects.
