@@ -6,10 +6,13 @@
 \alias{ISO}
 \title{Base class for isotope objects (ISO).}
 \description{
-An S4-class that provides slots to contain relevant animal metadata for parameterizing isotopic fractionation and residents models
-that can depend on any number of tissue-types and isotopes, as well as any other physiological (e.g., catabolism), morphological
-(e.g., ontogenetic allometry), and/or environmental (e.g., temperature) variables. This object can be used for either single animals, or
-incorporated into a series of animals (e.g., \link[isoclockR]{MISO}).
+An S4-class that provides slots to contain relevant animal metadata for
+parameterizing isotopic fractionation and residents models that can depend
+on any number of tissue-types and isotopes, as well as any other
+physiological (e.g., catabolism), morphological (e.g., ontogenetic
+allometry), and/or environmental (e.g., temperature) variables. This object
+can be used for either single animals, or #' incorporated into a series of
+animals (e.g., \link[isoclockR]{MISO}).
 }
 \details{
 words
@@ -24,6 +27,3 @@ words
 \item{\code{timestamp}}{text}
 }}
 
-\author{
-Brandyn M. Lucca
-}

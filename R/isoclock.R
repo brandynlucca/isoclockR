@@ -1,15 +1,28 @@
-#' Calculate residence time for an individual.
+#' Calculates the residence time (days) for isotope values using the isoclock
+#' equation.
 #'
-#' @param animal text
-#'
+#' @param object (Optional). Isotope object (\link[isoclockR]{ISO}) or
+#' multiple isotope object (\link[isoclockR]{MISO}) that
+#' contains both relevant metadata and one or more isotope measurements. This
+#' object is not required if running arbitrary distributions of values for
+#' each parameter (i.e., \code{doi}, \code{dfi}, \code{dt}, and \code{lambda}).
+#' @param doi Reference origin steady state isotopic composition (\eqn{\delta0}).
+#' @param dfi Reference new steady state isotopic composition (\eqn{\deltaf}).
+#' @param dt Isotope measurements (\eqn{\deltat}).
+#' @param lambda Tissue-specific isotopic turnover rate (\eqn{\lambda}).
+#' @param isotopes (Optional). Specify which isotopes to use in the isoclock
+#' equation.
+#' @param metasep (Optional). Separate out isotope measurements by specific
+#' metadata variables such as tissue-type, year, geographic region, etc.
+#' @param verbose Boolean (TRUE/FALSE) flag to print out diagnostics after each
+#' model run.
+#' @param create Boolean (TRUE/FALSE) flag to create an \link[isoclockR]{ISO}
+#' object if arbitrary values are used.
+#' @return Residence time (days) of an isotope.
 #' @usage
-#' isoclock(animal)
-#'
+#' isoclock(ISO_object)
 #' @details
 #' Calculates the residence time (days) of an individual (\link[isoclockR]{ISO}).
-#'
-#' @return
-#' Residence time (days)
 #'
 #' @references
 #' Klaasen, M., Piersma, T., Korthals, H., Dekinga, A., and Dietz, M.W. 2010. Single-point isotope measurements in blood cells and plasma to estimate
@@ -19,45 +32,94 @@
 #' identify ocean-to-estuarine habitat shifts in mobile organisms. Methods in Ecology and Evolution.
 #'
 #' @export
-isoclock <- function(animal=NULL, doi=animal@metadata$doi, dfi=animal@metadata$dfi, dt=animal@data,
-                     lambda=animal@metadata$lambda, data.names=names(animal@data)){
-  # requireNamespace("dplyr", quietly=T)
-  #Secondary check if animal is accidentally used as another variable
-  # if("animal" %in% Filter(ISOfind, ls())){
-  #   warning("Variable 'animal' is currently in use and conflicts with isoclock function. Please consider deleting or renaming.")
+isoclock <- function(object=NULL, doi=NA, dfi=NA, lambda=NA, dt=NA,
+                     data.names=NULL, seperator=NULL,
+                     verbose=T, create=T, rejection_sample = F){
+  #solve equation for specific values
+  if(is.null(object)){
+    object <- ISOgen(data=dt, doi=doi, dfi=dfi, lambda=lambda,
+                     data.names=ifelse(!is.null(data.names), data.names, "isotope"))
+  }
+
+  if(class(object) == "ISO"){
+    object <- suppressWarnings(ISOedit(object))
+  }else if(class(object) == "MISO"){
+    object <- suppressWarnings(MISOedit(object, rejection_sample))
+  }else{
+    stop("isoclock(...) requires either specific inputs for each parameter, or an ISO and/or MISO object.")
+  }
+
+  # if(verbose == T){
+  #   if(class(object) == "ISO"){
+  #     cat(paste("ISO object edited: ", deparse(substitute(object)), sep = ""), "\n", "Residence times calculated for ", nrow(object@data[[1]]),
+  #         " samples!", "\n", sep = "")
+  #   }else if(class(object) == "MISO"){
+  #     cat(paste("ISO object edited: ", deparse(substitute(object)), sep = ""), "\n", "Residence times calculated for ", length(object@data),
+  #         " animals!", "\n", sep = "")
+  #   }
   # }
 
-  #Secondary function
-  isosub <- function(x){
-    return(log((doi - dfi)/(x - dfi))/lambda)
-  }
-
-  if(is.null(animal)){
-    resval <- data.frame(residence=isosub(dt))
-    appISO <- Map(cbind, dt, residence=resval)
-    names(appISO) <- data.names
-    hypname <- paste("animal",sample(1:999,1), sep="")
-    cat(paste("ISO object created: ", hypname, sep=""), "\n",
-        "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
-    return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
-    # flag <- 0
-    # while(flag == 0){
-    #   varlist <- Filter(ISOfind, ls())
-    #   hypname <- paste("animal",sample(1:999,1), sep="")
-    #   if(!(hypname %in% varlist)){
-    #     flag <- 1
-    #     cat(paste("ISO object created: ", hypname, sep=""), "\n",
-    #         "Residence times calculated for ", nrow(appISO[[1]])," samples!", sep="")
-    #     return(ISOgen(data=appISO, data.names=names(appISO), doi=doi, dfi=dfi, lambda=lambda))
-    #   }
-    # }
+  if(create == T){
+    return(object)
   }else{
-    resval <- map(dt, .f = ~ isosub(.$value))
-    appISO <- Map(cbind, dt, residence=resval)
-    environ <- baseenv()
-    cat(paste("ISO object edited: ", deparse(substitute(animal)), sep=""), "\n",
-        "Residence times calculated for ", nrow(appISO[[1]])," samples!", "\n", sep="")
-    ISOedit(animal, appISO)
+    tmp <- ISOpull(object)
+    return(tmp %>% as.data.frame())
   }
 }
+
+#' Wrapper function to calculate isotope residence for ISO and MISO objects
+REScalc <- function(object, index){
+  if(class(object) == "ISO"){
+    params <- get_param(object)
+  }else if(class(object) == "MISO"){
+    params <- get_param_sub(object, index)
+  }
+  resval <- isosub(params)
+  return(resval)
+}
+
+#' Wrapper function to calculate isotope residence
+isosub <- function(params){
+  return(log((params$doi - params$dfi)/(params$dt - params$dfi))/params$lambda)
+}
+#' @rdname isosub
+#'
+isoreal <- function(doi, dfi, dt, lambda){
+  return(log((doi - dfi)/(dt - dfi))/lambda)
+}
+
+#' Rejection sampling
+#' @export
+rejection_sample <- function(object, index=NULL){
+  if(class(object) == "ISO"){
+    par <- get_param(object)
+  }else{
+    par <- get_param_sub(object, index)
+  }
+  dt <- par$dt; doi <- par$doi
+  dfi <- par$dfi; lambda <- par$lambda
+  idx <- seq_len(length(dt))
+  res_original <- suppressWarnings(isoreal(doi, dfi, dt, lambda))
+  res <- res_original
+  idx <- seq_len(length(dt))
+
+  while(length(idx) > 0){
+    idx <- which(is.na(res) | res < 0 | res > 400)
+    dt[idx] <- sample(dt, length(idx), replace=T)
+    doi[idx] <- sample(doi, length(idx), replace=T)
+    dfi[idx] <- sample(dfi, length(idx), replace=T)
+    lambda[idx] <- sample(lambda, length(idx), replace=T)
+    res[idx] <- suppressWarnings(isoreal(doi[idx], dfi[idx], dt[idx], lambda[idx]))
+  }
+
+  if(class(object) == "MISO"){
+    object@data[[index]][[sym(par$parameter[1])]]$residence_rejection <- res
+    object@data[[index]][[sym(par$parameter[1])]]$residence <- res_original
+  }else{
+    object@data[[sym(par$parameter[1])]]$residence_rejection <- res
+    object@data[[sym(par$parameter[1])]]$residence <- res_original
+  }
+  return(object)
+}
+
 

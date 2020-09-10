@@ -2,9 +2,15 @@
 % Please edit documentation in R/utilities.R
 \name{ISOedit}
 \alias{ISOedit}
+\alias{MISOedit}
+\alias{MISOpull}
 \title{Edit ISO objects.}
 \usage{
-ISOedit(object, update)
+ISOedit(object, ...)
+
+MISOedit(object, rejection = F)
+
+MISOpull(object, index, data.names = NULL)
 }
 \description{
 Edit ISO objects.
