@@ -6,7 +6,8 @@
 \alias{MISO}
 \title{Wrapping class for multiple isotope objects (MISO).}
 \description{
-An S4-class object that stores both data and metadata for all isotope objects of interest (i.e., \link[isoclockR]{ISO}).
+An S4-class object that stores both data and metadata for all isotope objects
+of interest (i.e., \link[isoclockR]{ISO}).
 }
 \details{
 words

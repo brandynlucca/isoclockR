@@ -2,9 +2,12 @@
 % Please edit documentation in R/utilities.R
 \name{ISOedit}
 \alias{ISOedit}
+\alias{MISOedit}
 \title{Edit ISO objects.}
 \usage{
-ISOedit(object, update)
+ISOedit(object, ...)
+
+MISOedit(object, rejection = F)
 }
 \description{
 Edit ISO objects.

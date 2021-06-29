@@ -2,18 +2,44 @@
 % Please edit documentation in R/isoclock.R
 \name{isoclock}
 \alias{isoclock}
-\title{Calculate residence time for an individual.}
+\title{Calculates the residence time (days) for isotope values using the isoclock
+equation.}
 \usage{
-isoclock(animal)
+isoclock(ISO_object)
 }
 \arguments{
-\item{animal}{text}
+\item{object}{(Optional). Isotope object (\link[isoclockR]{ISO}) or
+multiple isotope object (\link[isoclockR]{MISO}) that
+contains both relevant metadata and one or more isotope measurements. This
+object is not required if running arbitrary distributions of values for
+each parameter (i.e., \code{doi}, \code{dfi}, \code{dt}, and \code{lambda}).}
+
+\item{doi}{Reference origin steady state isotopic composition (\eqn{\delta0}).}
+
+\item{dfi}{Reference new steady state isotopic composition (\eqn{\deltaf}).}
+
+\item{lambda}{Tissue-specific isotopic turnover rate (\eqn{\lambda}).}
+
+\item{dt}{Isotope measurements (\eqn{\deltat}).}
+
+\item{verbose}{Boolean (TRUE/FALSE) flag to print out diagnostics after each
+model run.}
+
+\item{create}{Boolean (TRUE/FALSE) flag to create an \link[isoclockR]{ISO}
+object if arbitrary values are used.}
+
+\item{isotopes}{(Optional). Specify which isotopes to use in the isoclock
+equation.}
+
+\item{metasep}{(Optional). Separate out isotope measurements by specific
+metadata variables such as tissue-type, year, geographic region, etc.}
 }
 \value{
-Residence time (days)
+Residence time (days) of an isotope.
 }
 \description{
-Calculate residence time for an individual.
+Calculates the residence time (days) for isotope values using the isoclock
+equation.
 }
 \details{
 Calculates the residence time (days) of an individual (\link[isoclockR]{ISO}).

@@ -2,10 +2,10 @@
 % Please edit documentation in R/utilities.R
 \name{show,ISO-method}
 \alias{show,ISO-method}
-\title{Method for what is printed for ISO/MISO objects.}
+\title{Method for what is printed for ISO objects.}
 \usage{
 \S4method{show}{ISO}(object)
 }
 \description{
-Method for what is printed for ISO/MISO objects.
+Method for what is printed for ISO objects.
 }

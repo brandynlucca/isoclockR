@@ -7,7 +7,7 @@
 text
 }
 \arguments{
-\item{ls()}{text. Checks global environment for current ISO/MISO object names.}
+\item{object}{text. Checks global environment for current ISO/MISO object names.}
 }
 \value{
 text

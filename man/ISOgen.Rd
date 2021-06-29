@@ -2,7 +2,7 @@
 % Please edit documentation in R/create-class.R
 \name{ISOgen}
 \alias{ISOgen}
-\title{Generate ISO-class object.}
+\title{Generate ISO-class object containing isotope data, metadata, and other separators.}
 \usage{
 ISOgen(x)
 }
@@ -13,7 +13,7 @@ ISOgen(x)
 Generates ISO-class object.
 }
 \description{
-Generate ISO-class object.
+Generate ISO-class object containing isotope data, metadata, and other separators.
 }
 \examples{
 text

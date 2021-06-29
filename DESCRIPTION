@@ -1,17 +1,15 @@
 Package: isoclockR
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Title: Using stable isotopes for causal inferences in both physiology and ecology
+Version: 0.2.1
+Authors: Brandyn M. Lucca
+Maintainer: Brandyn M. Lucca <brandyn.lucca@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 Imports:
-    tidyverse,
-    graphics,
-    stats,
-    methods
-License: What license is it under?
+    tidyverse (>= 1.3.0),
+    viridis (>= 0.5.1)
+License:  GPL-3.0 License
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
