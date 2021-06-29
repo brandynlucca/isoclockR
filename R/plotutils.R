@@ -1,7 +1,6 @@
 #' Method for plotting residence times from ISO objects.
 #' @export
 #' @import tidyverse
-#' @import rlang
 
 resplot <- function(object, y = y, tail.prob = TRUE,
                     tail.summary = FALSE,
@@ -50,7 +49,7 @@ resplot <- function(object, y = y, tail.prob = TRUE,
     pobj <- pobj +
       geom_segment(aes(xend = x, yend = 0, colour = 0.5 - abs(0.5 - run))) +
       labs(color = "Tail probability") +
-      scale_color_viridis(direction = -1)
+      scale_color_viridis_c(begin=1, end=0)
   }
 
   return(pobj)
