@@ -157,7 +157,7 @@ miso_resplot <- function(object, y, tail.prob = TRUE,
       pobj <- pobj +
         geom_segment(data=df, aes(xend = x, yend = 0, colour = 0.5 - abs(0.5 - run))) +
         labs(color = "Tail probability") +
-        scale_color_viridis(direction = -1)
+        scale_color_viridis_c(begin=1, end=0)
     }else{
       sep_facet <- data.frame(x=c(), y=c(), run=c(), sep=c())
       all_facet <- data.frame(x=c(), y=c(), run=c(), sep=c())
@@ -180,7 +180,7 @@ miso_resplot <- function(object, y, tail.prob = TRUE,
                      aes(xend = x, yend = 0, colour = 0.5 - abs(0.5 - run))) +
         geom_line(data=df, aes(group=Along), size=1) +
         labs(color = "Tail probability") +
-        scale_color_viridis(direction = -1)
+        scale_color_viridis_c(begin=1, end=0)
     }
   }
 
