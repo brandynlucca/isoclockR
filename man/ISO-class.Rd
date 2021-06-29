@@ -20,10 +20,10 @@ words
 \section{Slots}{
 
 \describe{
-\item{\code{metadata}}{text}
+\item{\code{metadata}}{Any metadata such as datetime, species ID, etc.}
 
-\item{\code{data}}{text}
+\item{\code{data}}{Any calculations such as residence time estimation.}
 
-\item{\code{timestamp}}{text}
+\item{\code{timestamp}}{Timestamp of object generation.}
 }}
 
